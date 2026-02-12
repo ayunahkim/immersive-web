@@ -1,0 +1,17 @@
+import * as THREE from 'three'
+
+export function addPhongMeshes(){
+    const geometry = new THREE.TorusKnotGeometry(0.5,0.1,256,64);
+
+    const material = new THREE.MeshPhongMaterial({
+        color:'#27BEF5',
+        emissive: 0x050816,
+        specular: 0xffffff,
+        shininess: 120,
+        reflectivity: 1,
+        flatShading: false,
+    })
+
+    const mesh = new THREE.Mesh(geometry,material)
+    return mesh;
+}

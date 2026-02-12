@@ -1,6 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
-import {addDefaultMeshes} from './addDefaultMeshes'
+import {addDefaultMeshes, addStandardMeshes} from './addDefaultMeshes'
+import { addLight } from './addLight';
 
 const scene = new THREE.Scene();
 // (FOV, aspect ratio, near, far)
@@ -8,6 +9,7 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 
 const meshes = {};
+const lights = {};
 
 init();
 function init(){
@@ -20,29 +22,32 @@ function init(){
   meshes.default = addDefaultMeshes();
   meshes.default.position.x = 2;
 
-  meshes.default2 = addDefaultMeshes();
-  meshes.default2.position.x = -2;
-
-  meshes.default3 = addDefaultMeshes();
-  meshes.default3.position.y = 2;
+  meshes.standard = addStandardMeshes();
+  meshes.standard.position.x = -2;
 
   scene.add(meshes.default);
-  scene.add(meshes.default2);
-  scene.add(meshes.default3);
+  scene.add(meshes.standard);
 
+  lights.default = addLight();
+  scene.add(lights.default);
+
+  resize();
   animate();
+}
+
+function resize(){
+  window.addEventListener('resize',()=>{
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+  })
 }
 
 function animate(){
   //loops
   requestAnimationFrame(animate);
-  meshes.default.rotation.x += 2;
-  meshes.default.rotation.y += 0.1;
+  meshes.default.rotation.x += 0.02;
+  meshes.standard.rotation.y += 0.02;
 
-  meshes.default2.rotation.x += 2;
-  meshes.default2.rotation.y += 0.1;
-
-  meshes.default3.rotation.x += 2;
-  meshes.default3.rotation.y += 0.1;
   renderer.render(scene,camera);
 }
