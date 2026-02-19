@@ -2,7 +2,8 @@ import './style.css'
 import * as THREE from 'three'
 import {addDefaultMeshes, addStandardMeshes} from './addDefaultMeshes'
 import { addLight } from './addLight';
-import Model from './model'
+import { addTexturedMesh } from './addTexturedMesh';
+import Model from './model';
 
 const scene = new THREE.Scene();
 // (FOV, aspect ratio, near, far)
@@ -20,14 +21,18 @@ function init(){
   camera.position.z = 5;
   
   //here we populate our meshes container
-  meshes.default = addDefaultMeshes();
-  meshes.default.position.x = 2;
+  // meshes.default = addDefaultMeshes();
+  // meshes.default.position.x = 2;
 
-  meshes.standard = addStandardMeshes();
-  meshes.standard.position.x = -2;
+  // meshes.standard = addStandardMeshes();
+  // meshes.standard.position.x = -2;
 
-  scene.add(meshes.default);
-  scene.add(meshes.standard);
+  // scene.add(meshes.default);
+  // scene.add(meshes.standard);
+
+  meshes.textured = addTexturedMesh();
+  meshes.textured.position.x = -3;
+  scene.add(meshes.textured);
 
   lights.default = addLight();
   scene.add(lights.default);
@@ -38,17 +43,18 @@ function init(){
 }
 
 function instances(){
+  //where all our 3D models are loaded
   const flower = new Model({
-    url:'./assets/bouquet.glb',
+    url: '/bouquet.glb',
     scene: scene,
     meshes: meshes,
-    name:'flower',
+    name: 'flower',
     scale: new THREE.Vector3(2,2,2),
     position: new THREE.Vector3(0,-0.8,3),
     replace:true,
-    replaceURL:'./assets/mat.png',
+    replaceURL:'/mat2.png',
   })
-  flower.init()
+  flower.init();
 }
 
 function resize(){
@@ -62,8 +68,10 @@ function resize(){
 function animate(){
   //loops
   requestAnimationFrame(animate);
-  meshes.default.rotation.x += 0.02;
-  meshes.standard.rotation.y += 0.02;
+  // meshes.default.rotation.x += 0.02;
+  // meshes.standard.rotation.y += 0.02;
+
+  meshes.textured.rotation.y += 0.02;
 
   renderer.render(scene,camera);
 }
