@@ -1,9 +1,8 @@
 import './style.css'
 import * as THREE from 'three'
-import {addDefaultMeshes, addStandardMeshes} from './addDefaultMeshes'
 import { addLight } from './addLight';
-import { addTexturedMesh } from './addTexturedMesh';
-import Model from './model';
+import Model from './model'
+import { addPlanet } from './addPlanets';
 
 const scene = new THREE.Scene();
 // (FOV, aspect ratio, near, far)
@@ -12,6 +11,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 
 const meshes = {};
 const lights = {};
+let tick = 0;
 
 init();
 function init(){
@@ -20,19 +20,13 @@ function init(){
   document.body.appendChild(renderer.domElement);
   camera.position.z = 5;
   
-  //here we populate our meshes container
-  // meshes.default = addDefaultMeshes();
-  // meshes.default.position.x = 2;
+  meshes.planet1 = addPlanet('sphere',.8,'sun');
+  meshes.planet2 = addPlanet('sphere',.3,'ice');
+  meshes.planet3 = addPlanet('torus',.2,'phong');
 
-  // meshes.standard = addStandardMeshes();
-  // meshes.standard.position.x = -2;
-
-  // scene.add(meshes.default);
-  // scene.add(meshes.standard);
-
-  meshes.textured = addTexturedMesh();
-  meshes.textured.position.x = -3;
-  scene.add(meshes.textured);
+  scene.add(meshes.planet1);
+  scene.add(meshes.planet2);
+  scene.add(meshes.planet3);
 
   lights.default = addLight();
   scene.add(lights.default);
@@ -43,18 +37,17 @@ function init(){
 }
 
 function instances(){
-  //where all our 3D models are loaded
   const flower = new Model({
-    url: '/bouquet.glb',
+    url:'./assets/bouquet.glb',
     scene: scene,
     meshes: meshes,
-    name: 'flower',
+    name:'flower',
     scale: new THREE.Vector3(2,2,2),
     position: new THREE.Vector3(0,-0.8,3),
     replace:true,
-    replaceURL:'./mat.png',
+    replaceURL:'./assets/mat.png',
   })
-  flower.init();
+  flower.init()
 }
 
 function resize(){
@@ -68,10 +61,17 @@ function resize(){
 function animate(){
   //loops
   requestAnimationFrame(animate);
-  // meshes.default.rotation.x += 0.02;
-  // meshes.standard.rotation.y += 0.02;
-
-  meshes.textured.rotation.y += 0.02;
-
   renderer.render(scene,camera);
+
+  tick +=0.01;
+
+  meshes.planet1.rotation.y +=0.01;
+
+  meshes.planet2.position.x = Math.sin(tick*.5)*3;
+  meshes.planet2.position.y = Math.cos(tick*.5)*3;
+  meshes.planet2.rotation.y += 0.03;
+
+  meshes.planet3.position.x = Math.sin(tick)*2;
+  meshes.planet3.position.y = Math.cos(tick)*2;
+  meshes.planet3.rotation.y += 0.05;
 }

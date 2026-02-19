@@ -12,6 +12,8 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 const meshes = {};
 const lights = {};
 
+let tick=0;
+
 init();
 function init(){
   //setup stuff
