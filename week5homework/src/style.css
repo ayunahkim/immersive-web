@@ -1,0 +1,20 @@
+#buttons {
+  position:absolute;
+  z-index:2;
+  margin:0;
+  padding:0;
+}
+
+canvas {
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-2;
+}
+
+h1 {
+  z-index:3;
+  color:white;
+  position:fixed;
+  top:20px;
+}
