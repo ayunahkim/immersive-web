@@ -1,0 +1,24 @@
+body {
+    padding:10px;
+}
+
+img {
+    max-height:40vh;
+    position:absolute;
+    right:2vw;
+}
+
+#container {
+    display:flex;
+    padding-left:0;
+    margin-left:0;
+}
+
+#container ul {
+    padding:10px;
+    list-style-type: none;
+}
+
+#container li {
+    padding:10px;
+}
